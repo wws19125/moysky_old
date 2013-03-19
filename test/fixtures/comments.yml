@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  commenterid: MyString
+  body: MyString
+  ctime: 2013-03-13 21:57:02
+  weibo: 
+
+two:
+  commenterid: MyString
+  body: MyString
+  ctime: 2013-03-13 21:57:02
+  weibo: 

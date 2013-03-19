@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  userid: MyString
+  content: MyString
+  ctime: 2013-03-13 18:59:47
+  type: 
+  flag: 
+
+two:
+  userid: MyString
+  content: MyString
+  ctime: 2013-03-13 18:59:47
+  type: 
+  flag: 

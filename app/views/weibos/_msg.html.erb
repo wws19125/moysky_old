@@ -1,0 +1,46 @@
+  <div style="clear:both;padding-bottom:10px;">
+    
+    <div style="float:left;padding-right:20px"><%= image_tag("rails.png") %></div>
+    <div>
+      <div><b>sb用户</b></div>
+      <div  class="hero-unit" style="background:rgb(243, 243, 243);"> <%= msg.content%> </div>
+      <div>
+        <div style="float:right">
+          <a class="btn btn-link" id="<%= "comment#{msg.id}" %>" name="<%= msg.id %>"><%= "(评论#{msg.comments.count})" %></a>
+          <span> <%= msg.ctime.strftime('%Y-%m-%d %H:%M:%S').to_s %> </span>
+        </div>
+      </div>
+    </div>
+    <div style="clear:both;display:none;" id="<%= msg.id %>">
+      <%= form_for([msg,msg.comments.build]) do |f| %>
+         <div class="field">
+           <%= f.text_area :body,:placeholder =>'评论',:size =>'40*4',:style =>'width:100%;' %>
+         </div>
+         <div class="action">
+           <%= f.submit '提交',:class => "btn btn-info" %>
+         </div>
+      <% end %>
+         <!--评论-->
+      <% msg.comments.each do |comment| %>
+        <div>
+          <%= comment.body %>&nbsp;&nbsp;<%= comment.ctime %> 回复<br/>
+          <%= form_for([msg,comment.comments.build]) do |f| %>
+            <div class="field">
+              <%= f.text_area :body,:placerholder => '回复',:size => '40*4',:style =>'width:100%;' %>
+            </div>
+            <div class="action">
+              <%= f.submit '回复',:class => 'btn btn-info' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <hr/>
+
+<script>
+//$('#comment').toggle(function(){$('#'+this.name).show();},function(){$('#'+this.name).hidden();});
+//popover({placement:'bottom',content:function(){$('#'+this.name).show();}});
+$('#'+"<%= "comment#{msg.id}" %>").click(function(){$('#'+this.name).toggle(500);});
+//$('#'+"<%= "comment#{msg.id}" %>").click(function(){alert("who are you");});
+</script>

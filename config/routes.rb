@@ -1,4 +1,14 @@
 Moysky::Application.routes.draw do
+  # resources :weibos do
+  #   resources :comments do
+  #     resources :comments
+  #   end
+  # end
+
+  resources :weibos do
+    resources :comments
+  end
+
   get "home/index"
 
   # The priority is based upon order of creation:

@@ -1,0 +1,38 @@
+<%= render 'form' %>
+
+<script>
+//ajax
+alert("fkda");
+$('#new_weibo').on('submit',function(){$.ajax({url:$(this).prop('action'),dataType:'json',data:$(this).serialize(),type:'POST'}).success(function(data){});return false;});
+</script>
+
+<div class="btn btn-link">
+  <i class="icon-file"></i><a>微博</a>&nbsp;&nbsp;
+  <i class="icon-eye-open"></i> <a>图片</a>&nbsp;&nbsp;
+  <i class="icon-music"></i><a>Music</a>
+</div>
+<hr/>
+<div>
+<%= render @weibos %>
+
+<% @weibos.each do |msg| %>
+  <%= render msg %>
+<% end %>
+
+
+</div>
+
+<table class="table table-bordered table-hover" style="width:80%">
+<% @weibos.each do |weibo| %>
+  <tr>
+    <td><%= weibo.content %></td>
+    <td><%= weibo.ctime %></td>
+    <td><%= weibo.wtype %></td>
+    <td><%= weibo.flag %></td>
+    <td><%= link_to 'Show', weibo %></td>
+    <td><%= link_to 'Destroy', weibo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
