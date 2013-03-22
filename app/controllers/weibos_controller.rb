@@ -51,8 +51,11 @@ class WeibosController < ApplicationController
     @weibo.flag="0"
     respond_to do |format|
       if @weibo.save
-        format.html { redirect_to weibos_path, notice: 'Weibo was successfully created.' }
-        format.json { render json: @weibo, status: :created, location: @weibo }
+        format.html { render @weibo }
+        # format.html { redirect_to weibos_path, notice: 'Weibo was successfully created.' }
+        format.js{ render @weibo}
+        # format.json { head :no_content }
+        format.json { render @weibo, status: :created, location: @weibo }
       else
         format.html { render action: "new" }
         format.json { render json: @weibo.errors, status: :unprocessable_entity }
@@ -85,6 +88,8 @@ class WeibosController < ApplicationController
     respond_to do |format|
       format.html { redirect_to weibos_url }
       format.json { head :no_content }
+      # format.js
+      format.js { render text:"fff", status: :destroyed }
     end
   end
 end

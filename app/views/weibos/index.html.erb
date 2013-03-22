@@ -1,9 +1,59 @@
+<!-- 微博窗口 -->
 <%= render 'form' %>
 
 <script>
-//ajax
-alert("fkda");
-$('#new_weibo').on('submit',function(){$.ajax({url:$(this).prop('action'),dataType:'json',data:$(this).serialize(),type:'POST'}).success(function(data){});return false;});
+$(function(){
+
+  $("a[id^='comment']").tooltip({title:'评论'});
+  $("a[id^='delete']").tooltip({title:'删除'});
+  $('#msgbox').delegate("a[id^='comment']",'click',function(){$('#'+this.name).toggle(500);});
+  $('#msgbox').delegate("a[id^='delete']","click",function(){
+  var name = $(this).attr('name');
+  $.ajax({
+    url:'/weibos/'+$(this).attr('name'),
+    type:'DELETE',
+    dataType:'json',
+    success:function(data){
+      $('#msg'+name).fadeOut(1000,function(){
+        $(this).remove();
+      });
+    },
+    error:function(req,set){
+      alert("error");
+    }
+  });
+});
+
+$('#new_weibo').on('submit',function(){
+  $.ajax({
+    url:$(this).prop('action'),
+    //dataType:'script',
+    data:$(this).serialize(),
+    type:'POST',
+    success:function(data){
+      var tmp = data;
+      $('#msgbox').prepend(tmp);
+      $('#msgbox div:first').hide(0,function(){$(this).slideDown(1500);});
+      $('#weibo_content').val('');
+      $("a[id^='comment']").tooltip({title:'评论'});
+      $("a[id^='delete']").tooltip({title:'删除'});
+    },
+    error:function(req,set){
+      if(req.status == 200)
+      {
+        var tmp = $('#msgbox').html();
+        tmp = req.responseText + tmp;
+        $('#msgbox').html(tmp);
+        $('#weibo_content').val('');
+      }
+      else{
+        alert("error");
+      }
+    }
+  });
+  return false;
+});
+});
 </script>
 
 <div class="btn btn-link">
@@ -12,14 +62,8 @@ $('#new_weibo').on('submit',function(){$.ajax({url:$(this).prop('action'),dataTy
   <i class="icon-music"></i><a>Music</a>
 </div>
 <hr/>
-<div>
-<%= render @weibos %>
-
-<% @weibos.each do |msg| %>
-  <%= render msg %>
-<% end %>
-
-
+<div id="msgbox">
+  <%= render @weibos %>
 </div>
 
 <table class="table table-bordered table-hover" style="width:80%">
@@ -30,7 +74,7 @@ $('#new_weibo').on('submit',function(){$.ajax({url:$(this).prop('action'),dataTy
     <td><%= weibo.wtype %></td>
     <td><%= weibo.flag %></td>
     <td><%= link_to 'Show', weibo %></td>
-    <td><%= link_to 'Destroy', weibo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', weibo, method: :delete, data: { confirm: 'Are you sure?',:remote => true } %></td>
   </tr>
 <% end %>
 </table>

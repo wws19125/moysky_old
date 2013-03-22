@@ -1,4 +1,4 @@
-  <div style="clear:both;padding-bottom:10px;" id="<%= "msg#{weibo.id}" %>">
+  <div style="clear:both;padding-bottom:10px;">
     
     <div style="float:left;padding-right:20px"><%= image_tag("rails.png") %></div>
     <div>
@@ -6,10 +6,7 @@
       <div  class="hero-unit" style="background:rgb(243, 243, 243);"> <%= weibo.content%> </div>
       <div>
         <div style="float:right">
-          <!-- 评论 -->
-          <a class="btn btn-link" id="<%= "comment#{weibo.id}" %>" name="<%= weibo.id %>"><li class="icon-edit"></li><%= "(#{weibo.comments.count})" %></a>
-          <!--删除-->
-         <a class="btn btn-link" id='<%= "delete#{weibo.id}" %>' name='<%= weibo.id %>' ><i class='icon-trash'></i></a>
+          <a class="btn btn-link" id="<%= "comment#{weibo.id}" %>" name="<%= weibo.id %>"><%= "(评论#{weibo.comments.count})" %></a>
           <span> <%= weibo.ctime.strftime('%Y-%m-%d %H:%M:%S').to_s %> </span>
         </div>
       </div>
@@ -38,7 +35,12 @@
         </div>
       <% end %>
     </div>
-    <hr/>
   </div>
+  <hr/>
 
-
+<script>
+//$('#comment').toggle(function(){$('#'+this.name).show();},function(){$('#'+this.name).hidden();});
+//popover({placement:'bottom',content:function(){$('#'+this.name).show();}});
+$('#'+"<%= "comment#{weibo.id}" %>").click(function(){$('#'+this.name).toggle(500);});
+//$('#'+"<%= "comment#{weibo.id}" %>").click(function(){alert("who are you");});
+</script>
